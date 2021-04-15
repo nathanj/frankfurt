@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frankfurt Casual League</title>
+</head>
+<body>
+    This is the frankfurt casual league. Let's see the matchups for this week!
+
+{% for match in matches %}
+<p>Match: {{ match.corp_deck.name }} vs {{ match.runner_deck.name }}</p>
+{% endfor %}
+
+</body>
+</html>

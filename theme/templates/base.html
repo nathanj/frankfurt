@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Frankfurt Casual League</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="">
+
+		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	</head>
+
+	<body class="text-gray-700 bg-gray-50">
+	<h1 class="text-5xl text-center font-semibold p-3">Frankfurt Casual League</h1>
+	<h2 class="text-center text-2xl font-medium p-3">Matchups for the week of {{ week }}</h2>
+	<div class="container flex flex-wrap mx-auto">
+		{% for table in tables %}
+		<div class="p-4 mb-4 shadow-md mx-auto max-w-lg">
+			<p class="text-xl font-semibold text-center">{{ table.player1.name }} <span class="text-sm font-medium text-gray-500">vs</span> {{ table.player2.name }}</p>
+
+			<div class="mx-auto">
+				<div class="rounded-xl overflow-hidden flex h-28 w-full ">
+					<div class="lg:flex flex w-3/12 p-2">
+						<img src="{{ table.player1_runner_deck.img }}" class="rounded-md object-cover w-full h-full"/>
+					</div>
+					<div class="w-6/12 pl-3 p-3 text-text1 flex flex-col justify-center text-center">
+					<a href="{{table.player1_runner_deck.url}}" class="hover:underline tracking-wide text-lg font-semibold" style="{{ table.player1_runner_deck.color }}">{{ table.player1_runner_deck }} </a>
+					<p class="block text-sm leading-tight font-medium text-gray-800 text-center">vs</p>
+					<a href="{{table.player2_corp_deck.url}}" class="hover:underline tracking-wide text-lg font-semibold" style="{{ table.player2_corp_deck.color }}">{{ table.player2_corp_deck }} </a>
+					</div>
+					<div class="lg:flex flex w-3/12 p-2">
+						<img src="{{ table.player2_corp_deck.img }}" class="rounded-md object-cover w-full h-full"/>
+					</div>
+				</div>
+			</div>
+
+			<div class="mx-auto border-t-2 border-gray-200">
+				<div class="rounded-xl overflow-hidden flex h-28 w-full">
+					<div class="lg:flex flex w-3/12 p-2">
+						<img src="{{ table.player1_corp_deck.img }}" class="rounded-md object-cover w-full h-full"/>
+					</div>
+					<div class="w-6/12 pl-3 p-3 text-text1 flex flex-col justify-center text-center">
+					<a href="{{table.player1_corp_deck.url}}" class="hover:underline tracking-wide text-lg font-semibold" style="{{ table.player1_corp_deck.color }}">{{ table.player1_corp_deck }}</a>
+					<p class="block text-sm leading-tight font-medium text-gray-800 text-center">vs</p>
+					<a href="{{table.player2_runner_deck.url}}" class="hover:underline tracking-wide text-lg font-semibold" style="{{ table.player2_runner_deck.color }}">{{ table.player2_runner_deck }}</a>
+					</div>
+					<div class="lg:flex flex w-3/12 p-2">
+						<img src="{{ table.player2_runner_deck.img }}" class="rounded-md object-cover w-full h-full"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+</div>
+	</body>
+
+
+</html>
