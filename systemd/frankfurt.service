@@ -4,7 +4,7 @@ Description=frankfurt web site
 [Service]
 WorkingDirectory=/home/njones/frankfurt/
 EnvironmentFile=/home/njones/frankfurt/.env
-ExecStart=/home/njones/frankfurt/venv/bin/gunicorn mysite.wsgi
+ExecStart=/home/njones/frankfurt/run.sh
 
 [Install]
 WantedBy=default.target
