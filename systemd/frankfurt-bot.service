@@ -1,10 +1,10 @@
 [Unit]
-Description=Frankfurt web site
+Description=Frankfurt discord bot
 
 [Service]
 WorkingDirectory=/home/njones/frankfurt/
 EnvironmentFile=/home/njones/frankfurt/.env
-ExecStart=/home/njones/frankfurt/run.sh
+ExecStart=/home/njones/frankfurt/run-bot.sh
 
 [Install]
 WantedBy=default.target
