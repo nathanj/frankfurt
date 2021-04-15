@@ -1,0 +1,10 @@
+[Unit]
+Description=frankfurt web site
+
+[Service]
+WorkingDirectory=/home/njones/frankfurt/
+EnvironmentFile=/home/njones/frankfurt/.env
+ExecStart=/home/njones/frankfurt/venv/bin/gunicorn mysite.wsgi
+
+[Install]
+WantedBy=default.target
