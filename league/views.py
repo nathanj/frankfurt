@@ -3,7 +3,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 
 from .models import Table, Week
-from .service import create_matchups
+from .scheduler import create_matchups
 
 
 def matches(request):
