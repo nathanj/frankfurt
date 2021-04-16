@@ -27,8 +27,11 @@ def create_matchups():
         for p2 in signed_up_players:
             played[-1].append(Table.objects.filter((Q(player1=p) & Q(player2=p2)) | (Q(player1=p2) & Q(player2=p))).count())
 
+    # create the big list of costs
     runner_costs = [[0 for _ in range(num_decks)] for _ in range(num_players)]
+    runner_vs_costs = [[0 for _ in range(num_decks)] for _ in range(num_players)]
     corp_costs = [[0 for _ in range(num_decks)] for _ in range(num_players)]
+    corp_vs_costs = [[0 for _ in range(num_decks)] for _ in range(num_players)]
     global_runner_costs = [0 for _ in range(num_decks)]
     global_corp_costs = [0 for _ in range(num_decks)]
     deck_matchups = [[0 for _ in range(num_decks)] for _ in range(num_decks)]
@@ -46,23 +49,17 @@ def create_matchups():
         global_runner_costs[player1_runner_deck_id] += 1
         global_runner_costs[player2_runner_deck_id] += 1
         runner_costs[player1_id][player1_runner_deck_id] += 1
+        runner_vs_costs[player1_id][player2_corp_deck_id] += 1
         runner_costs[player2_id][player2_runner_deck_id] += 1
+        runner_vs_costs[player2_id][player1_corp_deck_id] += 1
         corp_costs[player1_id][player1_corp_deck_id] += 1
+        corp_vs_costs[player1_id][player2_runner_deck_id] += 1
         corp_costs[player2_id][player2_corp_deck_id] += 1
-
-    print(played)
-    print(runner_costs)
-    print(corp_costs)
-    print(corp_decks)
-    print(global_corp_costs)
-    print(runner_decks)
-    print(global_runner_costs)
-    print(deck_matchups)
+        corp_vs_costs[player2_id][player1_runner_deck_id] += 1
 
     matchups = schedule_players(played)
     matchups2 = []
     seen = []
-    print(matchups)
     for i, m in enumerate(matchups):
         if i in seen:
             continue
@@ -74,27 +71,30 @@ def create_matchups():
         player1_id = signed_up_players.index(m[0])
         player2_id = signed_up_players.index(m[1])
 
-        runner_deck = schedule_runner_deck(num_players, runner_costs[player1_id], global_runner_costs)
-        corp_deck = schedule_corp_deck(num_players, corp_costs[player2_id], global_corp_costs, deck_matchups[runner_deck])
+        runner_deck = schedule_runner_deck(num_players, runner_costs[player1_id], corp_vs_costs[player2_id], global_runner_costs)
+        corp_deck = schedule_corp_deck(num_players, corp_costs[player2_id], runner_vs_costs[player1_id], global_corp_costs, deck_matchups[runner_deck])
         m.append(runner_decks[runner_deck])
         m.append(corp_decks[corp_deck])
         runner_costs[player1_id][runner_deck] += 1
+        runner_vs_costs[player1_id][corp_deck] += 1
         corp_costs[player2_id][corp_deck] += 1
+        corp_vs_costs[player2_id][runner_deck] += 1
         global_runner_costs[runner_deck] += 1
         global_corp_costs[corp_deck] += 1
         deck_matchups[runner_deck][corp_deck] += 1
 
-        runner_deck = schedule_runner_deck(num_players, runner_costs[player2_id], global_runner_costs)
-        corp_deck = schedule_corp_deck(num_players, corp_costs[player1_id], global_corp_costs, deck_matchups[runner_deck])
+        runner_deck = schedule_runner_deck(num_players, runner_costs[player2_id], corp_vs_costs[player1_id], global_runner_costs)
+        corp_deck = schedule_corp_deck(num_players, corp_costs[player1_id], runner_vs_costs[player2_id], global_corp_costs, deck_matchups[runner_deck])
         m.append(runner_decks[runner_deck])
         m.append(corp_decks[corp_deck])
         runner_costs[player2_id][runner_deck] += 1
+        runner_vs_costs[player2_id][corp_deck] += 1
         corp_costs[player1_id][corp_deck] += 1
+        corp_vs_costs[player1_id][runner_deck] += 1
         global_runner_costs[runner_deck] += 1
         global_corp_costs[corp_deck] += 1
         deck_matchups[runner_deck][corp_deck] += 1
 
-    print(matchups2)
     return matchups2
 
 

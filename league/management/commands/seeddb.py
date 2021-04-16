@@ -66,9 +66,9 @@ class Command(BaseCommand):
 
         User.objects.create_superuser(username='admin', password='admin').save()
 
+        Player(discord_id=125, signup=True, name='njj').save()
         Player(discord_id=123, signup=True, name='FatBuddha').save()
         Player(discord_id=124, signup=True, name='Furang').save()
-        Player(discord_id=125, signup=True, name='njj').save()
         Player(discord_id=126, signup=True, name='Number Three').save()
         Player(discord_id=127, signup=True, name='rsh').save()
         Player(discord_id=128, signup=True, name='Semicolon42').save()

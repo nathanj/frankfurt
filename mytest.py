@@ -107,7 +107,7 @@ def schedule_players(played):
                 matchups[i] = j
     return matchups
 
-def schedule_runner_deck(num_players, runner_played, global_played):
+def schedule_runner_deck(num_players, runner_played, corp_vs_costs, global_played):
     num_decks = len(runner_played)
 
     # Solver
@@ -123,14 +123,19 @@ def schedule_runner_deck(num_players, runner_played, global_played):
     solver.Add(solver.Sum(x) == 1)
 
     # Objective
-    # Minimize repeat decks
+    # Top priority: minimize a player playing a repeat deck
     objective_terms = []
     for i in range(num_decks):
         objective_terms.append(runner_played[i] * num_players * x[i])
+    # Second priority: minimize a player playing against a repeat deck
+    objective_terms3 = []
+    for i in range(num_decks):
+        objective_terms3.append(corp_vs_costs[i] * num_players / 3 * x[i])
+    # Last priority: minimize repeat decks across all players
     objective_terms2 = []
     for i in range(num_decks):
         objective_terms2.append(global_played[i] * x[i])
-    solver.Minimize(solver.Sum(objective_terms) + solver.Sum(objective_terms2))
+    solver.Minimize(solver.Sum(objective_terms) + solver.Sum(objective_terms2) + solver.Sum(objective_terms3))
 
     # Solve
     status = solver.Solve()
@@ -145,7 +150,7 @@ def schedule_runner_deck(num_players, runner_played, global_played):
 
     return runner_deck
 
-def schedule_corp_deck(num_players, corp_played, global_played, deck_matchups):
+def schedule_corp_deck(num_players, corp_played, runner_vs_costs, global_played, deck_matchups):
     num_decks = len(corp_played)
 
     # Solver
@@ -161,17 +166,23 @@ def schedule_corp_deck(num_players, corp_played, global_played, deck_matchups):
     solver.Add(solver.Sum(x) == 1)
 
     # Objective
-    # Minimize repeat decks
+    # Top priority: minimize a player playing a repeat deck
     objective_terms = []
     for i in range(num_decks):
         objective_terms.append(corp_played[i] * num_players * x[i])
+    # Second priority: minimize a player playing against a repeat deck
+    objective_terms4 = []
+    for i in range(num_decks):
+        objective_terms4.append(runner_vs_costs[i] * num_players / 3 * x[i])
+    # Last priority: minimize repeat decks across all players
     objective_terms2 = []
     for i in range(num_decks):
         objective_terms2.append(global_played[i] * x[i])
+    # Last priority: minimize repeat decks matchups
     objective_terms3 = []
     for i in range(num_decks):
         objective_terms3.append(deck_matchups[i] * x[i])
-    solver.Minimize(solver.Sum(objective_terms) + solver.Sum(objective_terms2) + solver.Sum(objective_terms3))
+    solver.Minimize(solver.Sum(objective_terms) + solver.Sum(objective_terms2) + solver.Sum(objective_terms3) + solver.Sum(objective_terms4))
 
     # Solve
     status = solver.Solve()
