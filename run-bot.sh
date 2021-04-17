@@ -1,2 +1,2 @@
 #!/bin/sh
-./venv/bin/python -u bot.py
+exec ./venv/bin/python -u bot.py
