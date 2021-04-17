@@ -40,7 +40,7 @@ except:
 
 ALLOWED_HOSTS = []
 if not DEBUG:
-    ALLOWED_HOSTS = ['frankfurt.bitcrafter.net']
+    ALLOWED_HOSTS = ['frankfurt.bitcrafter.net', 'localhost']
 
 
 # Application definition
