@@ -1,6 +1,7 @@
 import datetime
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
+from django.conf import settings
 from league.models import *
 
 runner_decks = (
@@ -64,90 +65,22 @@ class Command(BaseCommand):
         for d in corp_decks:
             Deck(name=d[0], side='corp', url=d[1], faction=d[2], image_url=d[3]).save()
 
-        User.objects.create_superuser(username='admin', password='admin').save()
+        if settings.DEBUG:
+            User.objects.create_superuser(username='admin', password='admin').save()
 
-        Player(discord_id=125, signup=True, name='njj').save()
-        Player(discord_id=123, signup=True, name='FatBuddha').save()
-        Player(discord_id=124, signup=True, name='Furang').save()
-        Player(discord_id=126, signup=True, name='Number Three').save()
-        Player(discord_id=127, signup=True, name='rsh').save()
-        Player(discord_id=128, signup=True, name='Semicolon42').save()
-        Player(discord_id=129, signup=True, name='Shaz').save()
-        Player(discord_id=133, signup=True, name='somomos').save()
-        Player(discord_id=134, signup=True, name='Spraybizzle').save()
-        Player(discord_id=135, signup=True, name='Tesseract').save()
-        Player(discord_id=136, signup=True, name='Volitar').save()
-        Player(discord_id=137, signup=True, name='Wandalfthegizard').save()
-        Player(discord_id=138, signup=True, name='Zylyz').save()
-        Player(discord_id=139, signup=True, name='K4RL').save()
-
-        today = datetime.datetime.today().date()
-        while today.weekday() != 0:
-            today += datetime.timedelta(days=1)
-
-        w = Week(start=today)
-        w.save()
-
-        #t = Table(number=1, week=w, player1=Player.objects.filter(name='njj').first(), player2=Player.objects.filter(name='rsh').first())
-        #t.save()
-        #t2 = Table(number=2, week=w, player1=Player.objects.filter(name='somomos').first(), player2=Player.objects.filter(name='Spraybizzle').first())
-        #t2.save()
-        #t3 = Table(number=2, week=w, player1=Player.objects.filter(name='Volitar').first(), player2=Player.objects.filter(name='Semicolon42').first())
-        #t3.save()
-        #t4 = Table(number=2, week=w, player1=Player.objects.filter(name='Furang').first(), player2=Player.objects.filter(name='Shaz').first())
-        #t4.save()
-        #t5 = Table(number=2, week=w, player1=Player.objects.filter(name='Tesseract').first(), player2=Player.objects.filter(name='FatBuddha').first())
-        #t5.save()
-
-        #Match(table=t,
-        #    corp_player=Player.objects.filter(name='njj').first(),
-        #    corp_deck=Deck.objects.filter(name='An Architect\'s Brain').first(),
-        #    runner_player=Player.objects.filter(name='rsh').first(),
-        #    runner_deck=Deck.objects.filter(name='Eater Alice').first()).save()
-        #Match(table=t,
-        #    corp_player=Player.objects.filter(name='rsh').first(),
-        #    corp_deck=Deck.objects.filter(name='Blue Barriers').first(),
-        #    runner_player=Player.objects.filter(name='njj').first(),
-        #    runner_deck=Deck.objects.filter(name='Oracle OverExile').first()).save()
-        #Match(table=t2,
-        #    corp_player=Player.objects.filter(name='somomos').first(),
-        #    corp_deck=Deck.objects.filter(name='Acme JoyTag').first(),
-        #    runner_player=Player.objects.filter(name='Spraybizzle').first(),
-        #    runner_deck=Deck.objects.filter(name='Afro Akiko').first()).save()
-        #Match(table=t2,
-        #    corp_player=Player.objects.filter(name='Spraybizzle').first(),
-        #    corp_deck=Deck.objects.filter(name='Ambitious Outfit').first(),
-        #    runner_player=Player.objects.filter(name='somomos').first(),
-        #    runner_deck=Deck.objects.filter(name='Sifting Fisk').first()).save()
-        #Match(table=t3,
-        #    corp_player=Player.objects.filter(name='Volitar').first(),
-        #    corp_deck=Deck.objects.filter(name='Grail Foundry').first(),
-        #    runner_player=Player.objects.filter(name='Semicolon42').first(),
-        #    runner_deck=Deck.objects.filter(name='Deva Adam').first()).save()
-        #Match(table=t3,
-        #    corp_player=Player.objects.filter(name='Semicolon42').first(),
-        #    corp_deck=Deck.objects.filter(name='Meaty Builders').first(),
-        #    runner_player=Player.objects.filter(name='Volitar').first(),
-        #    runner_deck=Deck.objects.filter(name='Surfer Kit').first()).save()
-        #Match(table=t4,
-        #    corp_player=Player.objects.filter(name='Furang').first(),
-        #    corp_deck=Deck.objects.filter(name='Tricky Haarpsichord').first(),
-        #    runner_player=Player.objects.filter(name='Shaz').first(),
-        #    runner_deck=Deck.objects.filter(name='Bad Pub Kim').first()).save()
-        #Match(table=t4,
-        #    corp_player=Player.objects.filter(name='Shaz').first(),
-        #    corp_deck=Deck.objects.filter(name='Blue Barriers').first(),
-        #    runner_player=Player.objects.filter(name='Furang').first(),
-        #    runner_deck=Deck.objects.filter(name='Los HQ Drill').first()).save()
-        #Match(table=t5,
-        #    corp_player=Player.objects.filter(name='Tesseract').first(),
-        #    corp_deck=Deck.objects.filter(name='Biotech Cloning').first(),
-        #    runner_player=Player.objects.filter(name='FatBuddha').first(),
-        #    runner_deck=Deck.objects.filter(name='Nasir\'s Workshop').first()).save()
-        #Match(table=t5,
-        #    corp_player=Player.objects.filter(name='FatBuddha').first(),
-        #    corp_deck=Deck.objects.filter(name='Jemison Constellation').first(),
-        #    runner_player=Player.objects.filter(name='Tesseract').first(),
-        #    runner_deck=Deck.objects.filter(name='Omar\'s Old Tricks').first()).save()
+            Player(discord_id=125, signup=True, name='njj').save()
+            Player(discord_id=123, signup=True, name='FatBuddha').save()
+            Player(discord_id=124, signup=True, name='Furang').save()
+            Player(discord_id=126, signup=True, name='Number Three').save()
+            Player(discord_id=127, signup=True, name='rsh').save()
+            Player(discord_id=128, signup=True, name='Semicolon42').save()
+            Player(discord_id=129, signup=True, name='Shaz').save()
+            Player(discord_id=133, signup=True, name='somomos').save()
+            Player(discord_id=134, signup=True, name='Spraybizzle').save()
+            Player(discord_id=135, signup=True, name='Tesseract').save()
+            Player(discord_id=136, signup=True, name='Volitar').save()
+            Player(discord_id=137, signup=True, name='Wandalfthegizard').save()
+            Player(discord_id=138, signup=True, name='Zylyz').save()
+            Player(discord_id=139, signup=True, name='K4RL').save()
 
         self.stdout.write(self.style.SUCCESS('Seeded database'))

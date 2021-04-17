@@ -3,7 +3,6 @@ from django.db import connection
 from django.db.models import Q
 from pprint import pprint
 from collections import defaultdict
-from mytest import schedule_players, schedule_runner_deck, schedule_corp_deck
 import random
 
 from .models import Player, Deck, Week, Table

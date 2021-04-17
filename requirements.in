@@ -6,3 +6,6 @@ discord.py
 ortools
 django-tailwind
 gunicorn
+requests
+python-dotenv
+aiohttp

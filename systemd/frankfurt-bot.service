@@ -3,7 +3,6 @@ Description=Frankfurt discord bot
 
 [Service]
 WorkingDirectory=/home/njones/frankfurt/
-EnvironmentFile=/home/njones/frankfurt/.env
 ExecStart=/home/njones/frankfurt/run-bot.sh
 
 [Install]

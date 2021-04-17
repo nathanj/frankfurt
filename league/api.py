@@ -1,16 +1,17 @@
+import os
 from typing import NamedTuple
 
 from rest_framework.decorators import api_view
-from rest_framework import serializers, status
+from rest_framework import serializers, status, generics
 from rest_framework.response import Response
 
-from .models import Player
+from .models import Player, Deck
 
 
 class Signup(NamedTuple):
     discord_id: str
     name: str
-    signup_type: str
+    signup: bool
 
 
 class SignupSerializer(serializers.Serializer):
@@ -22,9 +23,26 @@ class SignupSerializer(serializers.Serializer):
         return Signup(**validated_data)
 
 
+def auth_required(func):
+    def wrapper(request):
+        print('wrapper')
+        print(request)
+        print(os.environ)
+        if 'Authorization' in request.headers and request.headers['Authorization'] == os.environ['API_KEY']:
+            return func(request)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+    return wrapper
+
+
 @api_view(['POST'])
+@auth_required
 def signup(request):
+    print('here')
+    print(request)
+    print(request.data)
     serializer = SignupSerializer(data=request.data)
+    print(serializer)
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     signup = serializer.save()
@@ -33,3 +51,14 @@ def signup(request):
     player.signup = signup.signup
     player.save()
     return Response({'status': 'ok'}, status=status.HTTP_200_OK)
+
+
+class DeckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deck
+        fields = ['name', 'side', 'url', 'faction']
+
+
+class DeckList(generics.ListAPIView):
+    queryset = Deck.objects.all()
+    serializer_class = DeckSerializer

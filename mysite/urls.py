@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('accounts/', include('allauth.urls')),
     path('api/signup', api.signup),
+    path('api/decks/', api.DeckList.as_view()),
+
     path('matches', views.matches),
     path('', views.index),
 
