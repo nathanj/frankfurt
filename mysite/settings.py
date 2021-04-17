@@ -27,16 +27,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 try:
     SECRET_KEY = os.environ['SECRET_KEY']
 except:
-    print('WARNING - no SECRET_KEY')
-    SECRET_KEY = 'bad'
+    SECRET_KEY = 'asdf'
 
+if SECRET_KEY == 'asdf':
+    print('WARNING - bad SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
     DEBUG = os.environ['DEBUG'] != 'no'
 except:
-    print('WARNING - DEBUG = True')
     DEBUG = True
+
+if DEBUG:
+    print('WARNING - DEBUG = True')
 
 ALLOWED_HOSTS = []
 if not DEBUG:

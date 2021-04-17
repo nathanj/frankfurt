@@ -15,7 +15,8 @@ def schedule_players(played):
     @param played  the matrix of how many times a player has played another player
     """
     num_players = len(played) # todo: assuming even
-    assert num_players % 2 == 0
+    if num_players % 2 != 0:
+        raise 'num_players must be even'
 
     # Solver
     # Create the mip solver with the SCIP backend.
@@ -161,6 +162,10 @@ def schedule_corp_deck(num_players, corp_played, runner_vs_costs, global_played,
 def create_matchups():
     signed_up_players = list(Player.objects.filter(signup=True).all())
     num_players = len(signed_up_players)
+    # make sure even
+    if num_players % 2 != 0:
+        signed_up_players = [p for p in signed_up_players if p.name != 'njj']
+        num_players -= 1
     matches = list(Table.objects.select_related().all())
     corp_decks = list(Deck.objects.filter(side='corp').all())
     runner_decks = list(Deck.objects.filter(side='runner').all())

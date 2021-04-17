@@ -68,19 +68,8 @@ class Command(BaseCommand):
         if settings.DEBUG:
             User.objects.create_superuser(username='admin', password='admin').save()
 
-            Player(discord_id=125, signup=True, name='njj').save()
-            Player(discord_id=123, signup=True, name='FatBuddha').save()
-            Player(discord_id=124, signup=True, name='Furang').save()
-            Player(discord_id=126, signup=True, name='Number Three').save()
-            Player(discord_id=127, signup=True, name='rsh').save()
-            Player(discord_id=128, signup=True, name='Semicolon42').save()
-            Player(discord_id=129, signup=True, name='Shaz').save()
-            Player(discord_id=133, signup=True, name='somomos').save()
-            Player(discord_id=134, signup=True, name='Spraybizzle').save()
-            Player(discord_id=135, signup=True, name='Tesseract').save()
-            Player(discord_id=136, signup=True, name='Volitar').save()
-            Player(discord_id=137, signup=True, name='Wandalfthegizard').save()
-            Player(discord_id=138, signup=True, name='Zylyz').save()
-            Player(discord_id=139, signup=True, name='K4RL').save()
+            Player(discord_id=133207843275931648, signup=True, name='njj').save()
+            Player(discord_id=123, signup=True, name='test').save()
+
 
         self.stdout.write(self.style.SUCCESS('Seeded database'))

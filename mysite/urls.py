@@ -22,12 +22,14 @@ from league import api
 from league import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    #path('accounts/', include('allauth.urls')),
-    path('api/signup', api.signup),
-    path('api/decks/', api.DeckList.as_view()),
+    path('hq_interface/', admin.site.urls),
 
-    path('matches', views.matches),
+    path('api/generate', api.generate),
+    path('api/signup', api.signup),
+    path('api/decks', api.DeckList.as_view()),
+    path('api/tables', api.TableList.as_view()),
+    path('api/matches', api.TableList.as_view()),
+
     path('', views.index),
 
     path('__debug__/', include(debug_toolbar.urls)),
