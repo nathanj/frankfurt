@@ -25,9 +25,6 @@ class SignupSerializer(serializers.Serializer):
 
 def auth_required(func):
     def wrapper(request):
-        print('wrapper')
-        print(request)
-        print(os.environ)
         if 'Authorization' in request.headers and request.headers['Authorization'] == os.environ['API_KEY']:
             return func(request)
         else:
@@ -38,11 +35,7 @@ def auth_required(func):
 @api_view(['POST'])
 @auth_required
 def signup(request):
-    print('here')
-    print(request)
-    print(request.data)
     serializer = SignupSerializer(data=request.data)
-    print(serializer)
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     signup = serializer.save()

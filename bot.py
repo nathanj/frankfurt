@@ -26,7 +26,9 @@ async def display_help(message):
 !help        Display this help
 !pickdecks   Pick a random corp and runner deck matchup
 !fr-signup   Sign up for the Frankfurt casual league
-!fr-drop     Drop out of the Frankfurt casual league```""".strip())
+!fr-drop     Drop out of the Frankfurt casual league
+
+You can either post the command in this channel or message me directly.```""".strip())
 
 
 async def pick_decks(message):
