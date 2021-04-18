@@ -41,8 +41,9 @@ except:
 if DEBUG:
     print('WARNING - DEBUG = True')
 
-ALLOWED_HOSTS = []
-if not DEBUG:
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
     ALLOWED_HOSTS = ['frankfurt.bitcrafter.net', 'localhost']
 
 
