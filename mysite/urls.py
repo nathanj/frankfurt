@@ -22,7 +22,7 @@ from league import api
 from league import views
 
 urlpatterns = [
-    path('hq_interface/', admin.site.urls),
+    path('hq/', admin.site.urls),
 
     path('api/generate', api.generate),
     path('api/signup', api.signup),

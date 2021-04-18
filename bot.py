@@ -32,8 +32,8 @@ async def display_help(message):
 
 !help        Display this help
 !pickdecks   Pick a random corp and runner deck matchup
-!fr-signup   Sign up for the Frankfurt casual league
-!fr-drop     Drop out of the Frankfurt casual league
+!signup      Sign up for the Frankfurt casual league
+!drop        Drop out of the Frankfurt casual league
 
 You can either post the command in this channel or message me directly.```""".strip())
 
@@ -92,9 +92,9 @@ async def on_message(message):
         await display_help(message)
     elif message.content.startswith('-pickdecks') or message.content.startswith('!pickdecks'):
         await pick_decks(message)
-    elif message.content.startswith('-fr-signup') or message.content.startswith('!fr-signup'):
+    elif message.content.startswith('-signup') or message.content.startswith('!signup'):
         await signup(message)
-    elif message.content.startswith('-fr-drop') or message.content.startswith('!fr-drop'):
+    elif message.content.startswith('-drop') or message.content.startswith('!drop'):
         await drop(message)
 
 async def weekly_match_generator():
