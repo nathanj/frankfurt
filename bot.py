@@ -101,7 +101,7 @@ async def weekly_match_generator():
     while True:
         now = datetime.datetime.now()
         monday_10am = now.replace(hour=10, minute=0, second=0, microsecond=0)
-        while monday_10am.weekday() != 5 or monday_10am < now:
+        while monday_10am.weekday() != 0 or monday_10am < now:
             monday_10am += datetime.timedelta(days=1)
         delta = monday_10am - now
         print('generating matches in ', delta)
