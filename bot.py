@@ -100,10 +100,9 @@ async def on_message(message):
 async def weekly_match_generator():
     while True:
         now = datetime.datetime.now()
-        #monday_10am = now.replace(hour=10, minute=0, second=0, microsecond=0)
-        #while monday_10am.weekday() != 0:
-        #    monday_10am += datetime.timedelta(days=1)
-        monday_10am = now + datetime.timedelta(seconds=10)
+        monday_10am = now.replace(hour=10, minute=0, second=0, microsecond=0)
+        while monday_10am.weekday() != 0:
+            monday_10am += datetime.timedelta(days=1)
         delta = monday_10am - now
         print('generating matches in ', delta)
         await asyncio.sleep(delta.total_seconds())
