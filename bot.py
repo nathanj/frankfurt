@@ -131,7 +131,7 @@ async def weekly_match_generator():
                             raise Exception(await response.text())
                 else:
                     raise Exception(await response.text())
-        asyncio.sleep(60)
+        await asyncio.sleep(60)
 
 client.loop.create_task(weekly_match_generator())
 client.run(os.environ['DISCORD_KEY'])
