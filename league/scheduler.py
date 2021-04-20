@@ -191,8 +191,6 @@ def create_matchups():
     global_corp_costs = [0 for _ in range(num_decks)]
     deck_matchups = [[0 for _ in range(num_decks)] for _ in range(num_decks)]
     for m in matches:
-        player1_id = signed_up_players.index(m.player1)
-        player2_id = signed_up_players.index(m.player2)
         player1_corp_deck_id = corp_decks.index(m.player1_corp_deck)
         player1_runner_deck_id = runner_decks.index(m.player1_runner_deck)
         player2_corp_deck_id = corp_decks.index(m.player2_corp_deck)
@@ -203,14 +201,24 @@ def create_matchups():
         global_corp_costs[player2_corp_deck_id] += 1
         global_runner_costs[player1_runner_deck_id] += 1
         global_runner_costs[player2_runner_deck_id] += 1
-        runner_costs[player1_id][player1_runner_deck_id] += 1
-        runner_vs_costs[player1_id][player2_corp_deck_id] += 1
-        runner_costs[player2_id][player2_runner_deck_id] += 1
-        runner_vs_costs[player2_id][player1_corp_deck_id] += 1
-        corp_costs[player1_id][player1_corp_deck_id] += 1
-        corp_vs_costs[player1_id][player2_runner_deck_id] += 1
-        corp_costs[player2_id][player2_corp_deck_id] += 1
-        corp_vs_costs[player2_id][player1_runner_deck_id] += 1
+
+        try:
+            player1_id = signed_up_players.index(m.player1)
+            runner_costs[player1_id][player1_runner_deck_id] += 1
+            runner_vs_costs[player1_id][player2_corp_deck_id] += 1
+            corp_costs[player1_id][player1_corp_deck_id] += 1
+            corp_vs_costs[player1_id][player2_runner_deck_id] += 1
+        except: # player not in signed_up_players
+            pass
+
+        try:
+            player2_id = signed_up_players.index(m.player2)
+            runner_costs[player2_id][player2_runner_deck_id] += 1
+            runner_vs_costs[player2_id][player1_corp_deck_id] += 1
+            corp_costs[player2_id][player2_corp_deck_id] += 1
+            corp_vs_costs[player2_id][player1_runner_deck_id] += 1
+        except: # player not in signed_up_players
+            pass
 
     matchups = schedule_players(played)
     matchups2 = []
