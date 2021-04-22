@@ -12,7 +12,7 @@ class PlayerAdmin(admin.ModelAdmin):
     ordering = ('name', )
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
 @admin.register(Table)
 class TableAdmin(admin.ModelAdmin):
