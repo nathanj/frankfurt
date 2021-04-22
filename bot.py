@@ -118,10 +118,10 @@ async def weekly_match_generator():
                     print('getting tables')
                     async with session.get('http://localhost:8000/api/tables') as response:
                         if response.status == 200:
-                            await channel.send(content=f"""**League matchups have been generated for the week of {monday_10am.strftime("%B %-e")}**.
+                            await channel.send(embed=discord.Embed(description=textwrap.dedent(f"""\
+                            **League matchups have been generated for the week of {monday_10am.strftime("%B %-e")}**.
                             You should have received a DM from me with your match if you were signed up. You can also view the matchups on the [Frankfurt League Website](https://frankfurt.bitcrafter.net).
-                            As a reminder, you can always signup or dropout for next week by sending me `!signup` or `!drop`.
-                            """)
+                            As a reminder, you can always signup or dropout for next week by sending me `!signup` or `!drop`.""")))
                             tables = await response.json()
                             for table in tables:
                                 player1_id = table['player1']['discord_id']
@@ -132,19 +132,19 @@ async def weekly_match_generator():
                                 p2_corp = table['player2_corp_deck']
                                 p1_runner = table['player1_runner_deck']
                                 p2_runner = table['player2_runner_deck']
-                                content = f"<@{player1_id}> vs <@{player2_id}>"
+                                content = f"Your Frankfurt match this week: <@{player1_id}> vs <@{player2_id}>"
                                 embed = discord.Embed(description=textwrap.dedent(f"""\
-                                        {deck_with_url(p1_corp)} vs {deck_with_url(p2_runner)}
-                                        {deck_with_url(p1_runner)} vs {deck_with_url(p2_corp)}"""))
+                                        ({player1_name}) {deck_with_url(p1_corp)} vs {deck_with_url(p2_runner)} ({player2_name})
+                                        ({player1_name}) {deck_with_url(p1_runner)} vs {deck_with_url(p2_corp)} ({player2_name})"""))
                                 try:
                                     print(f'sending msg to {player1_name} ({player1_id})')
-                                    user = client.get_user(int(player1_id))
+                                    user = await client.fetch_user(int(player1_id))
                                     await user.send(content=content, embed=embed)
                                 except Exception as ex:
                                     print(ex)
                                 try:
                                     print(f'sending msg to {player2_name} ({player2_id})')
-                                    user = client.get_user(int(player2_id))
+                                    user = await client.fetch_user(int(player2_id))
                                     await user.send(content=content, embed=embed)
                                 except Exception as ex:
                                     print(ex)
