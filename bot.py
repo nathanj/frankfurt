@@ -72,6 +72,7 @@ async def signup(message):
             'name': message.author.name,
             'signup': True,
             }
+    print('signing up ', json)
     await do_signup(message, json)
 
 
@@ -80,6 +81,7 @@ async def drop(message):
             'name': message.author.name,
             'signup': False,
             }
+    print('dropping out ', json)
     await do_signup(message, json)
 
 
