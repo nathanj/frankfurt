@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models.functions import Lower
 
 from .models import Deck, Week, Player, Table
 
@@ -9,7 +10,7 @@ class PlayerAdmin(admin.ModelAdmin):
     readonly_fields = ('discord_id', 'name')
     list_display = ('name', 'signup')
     search_fields = ('name', )
-    ordering = ('name', )
+    ordering = (Lower('name'), )
 
     def has_delete_permission(self, request, obj=None):
         return request.user.is_superuser
