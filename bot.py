@@ -132,7 +132,7 @@ async def weekly_match_generator():
                                 p2_corp = table['player2_corp_deck']
                                 p1_runner = table['player1_runner_deck']
                                 p2_runner = table['player2_runner_deck']
-                                content = f"Your Frankfurt match this week: <@{player1_id}> vs <@{player2_id}>"
+                                content = f"Your Frankfurt match this week:"
                                 embed = discord.Embed(description=textwrap.dedent(f"""\
                                         ({player1_name}) {deck_with_url(p1_corp)} vs {deck_with_url(p2_runner)} ({player2_name})
                                         ({player1_name}) {deck_with_url(p1_runner)} vs {deck_with_url(p2_corp)} ({player2_name})"""))
