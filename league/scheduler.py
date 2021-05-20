@@ -165,7 +165,11 @@ def create_matchups():
     # make sure even
     if num_players % 2 != 0:
         signed_up_players = [p for p in signed_up_players if p.name != 'njj']
-        num_players -= 1
+        num_players = len(signed_up_players)
+    if num_players % 2 != 0:
+        random.shuffle(signed_up_players)
+        signed_up_players = signed_up_players[:-1]
+        num_players = len(signed_up_players)
     matches = list(Table.objects.select_related().all())
     corp_decks = list(Deck.objects.filter(side='corp').all())
     runner_decks = list(Deck.objects.filter(side='runner').all())
