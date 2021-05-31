@@ -31,6 +31,7 @@ async def display_help(message):
 ```Hi, I'm the Frankfurt Bot. My commands are:
 
 !help        Display this help
+!decks       Show all the decks
 !pickdecks   Pick a random corp and runner deck matchup
 !signup      Sign up for the Frankfurt casual league
 !drop        Drop out of the Frankfurt casual league
@@ -40,6 +41,11 @@ You can either post the command in this channel or message me directly.```""".st
 
 def deck_with_url(deck):
     return f"[{deck['name']}]({deck['url']})"
+
+
+async def decks(message):
+    embed = discord.Embed(description=f"[Runner Decks](https://tinyurl.com/892k3bum)\n[Corp Decks](https://tinyurl.com/467wk8b9)")
+    await message.channel.send(embed=embed)
 
 
 async def pick_decks(message):
@@ -98,6 +104,8 @@ async def on_message(message):
         await signup(message)
     elif message.content.startswith('-drop') or message.content.startswith('!drop'):
         await drop(message)
+    elif message.content.startswith('-decks') or message.content.startswith('!decks'):
+        await decks(message)
     elif message.content.startswith('-dropout') or message.content.startswith('!dropout'):
         await drop(message)
 
